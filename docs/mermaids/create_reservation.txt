@@ -1,0 +1,22 @@
+sequenceDiagram
+    actor p as Patient
+    participant a as App
+    participant q as Queue Number<br>Manager
+
+    p->>a: Get reservation slots
+    a-->>p: OK
+    p->>a: Create reservation
+    
+    alt Doctor is not available
+        a-->>p: ERROR
+    end
+    
+    alt Reservation slot is not available
+        a-->>p: ERROR
+    end
+
+    a->>a: Create reservation
+    a->>q: Get queue number
+    q->>q: Add queue number<br>by +1
+    q-->>a: OK
+    a-->>p: OK

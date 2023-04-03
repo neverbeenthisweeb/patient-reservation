@@ -17,11 +17,15 @@
 
 ## Diagrams
 
-### Sequence/use case diagram
+### Use Case Diagram
 
-- Patient creates a reservation
-- Patient cancels a reservation
-- Patient sees list of reservations
+#### Patient Creates a Reservation
+
+![create_reservation](./imgs/create_reservation.svg)
+
+#### Patient Cancels a Reservation
+
+#### Patient Get List of Reservations
 
 ### ERD
 
