@@ -2,6 +2,7 @@
 
 ## Requirements
 
+- Each patients can do a reservation for a consultation
 - Reservation is based on clinic slot
 - Once a reservation is booked, patient will receive a queue number
 
