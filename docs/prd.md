@@ -33,7 +33,4 @@
 
 ### ERD
 
-- patients
-- doctors
-- reservations
-- slots?
+![erd](./imgs/erd.svg)
