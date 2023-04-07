@@ -1,0 +1,7 @@
+sequenceDiagram
+    actor p as Patient
+    participant a as App
+
+    p->>a: Get list of reservations
+    a->>a: Get list of reservations
+    a-->>p: OK

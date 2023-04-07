@@ -25,7 +25,11 @@
 
 #### Patient Cancels a Reservation
 
+![cancel_reservation](./imgs/cancel_reservation.svg)
+
 #### Patient Get List of Reservations
+
+![get_list_of_reservations](./imgs/get_list_of_reservations.svg)
 
 ### ERD
 

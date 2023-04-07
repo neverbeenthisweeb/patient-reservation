@@ -10,7 +10,7 @@ PUT /reservations
 
 ## Get List of Reservations
 
-GET /reservations?is_today=XXX
+GET /reservations?include_cancelled=true
 
 ## Get Slots
 

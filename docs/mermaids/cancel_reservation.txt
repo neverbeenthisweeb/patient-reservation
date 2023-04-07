@@ -1,0 +1,16 @@
+sequenceDiagram
+    actor p as Patient
+    participant a as App
+
+    p->>a: Cancel reservation
+
+    alt Reservation does not exist
+        a-->>p: ERROR
+    end
+
+    alt Reservation is already cancelled
+        a-->>p: ERROR
+    end
+
+    a->>a: Cancel reservation
+    a-->>p: OK
