@@ -82,7 +82,7 @@ func (ct *controller) CancelReservation(c *fiber.Ctx) error {
 		return err
 	}
 
-	return c.Status(http.StatusOK).JSON()
+	return c.Status(http.StatusOK).JSON(rv)
 }
 
 func (ct *controller) Start(app *fiber.App) {
