@@ -3,23 +3,23 @@ erDiagram
     doctors ||--o{ reservations: has
 
     patients {
-        string id
+        int id
         string name
         timestamp created_at
         timestamp updated_at
     }
 
     doctors {
-        string id
+        int id
         string name
         timestamp created_at
         timestamp updated_at
     }
 
     reservations {
-        string id
-        string patient_id
-        string doctor_id
+        int id
+        int patient_id
+        int doctor_id
         timestamp started_at "Reservation start time"
         timestamp ended_at "Reservation end time"
         bool is_cancelled "If true, reservation is cancelled"
@@ -29,8 +29,8 @@ erDiagram
 
     slots {
         string id
-        timestamp started_at "Reservation start time"
-        timestamp ended_at "Reservation end time"
+        string started_at "hh:mm of slot start (e.g. 10:30)"
+        string ended_at "hh:mm of slot end (e.g. 11:45)"
         timestamp created_at
         timestamp updated_at
     }

@@ -2,7 +2,6 @@ package app
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/go-playground/validator/v10"
@@ -39,14 +38,12 @@ func (ct *controller) GetSlots(c *fiber.Ctx) error {
 }
 
 func (ct *controller) CreateReservation(c *fiber.Ctx) error {
-	// FIXME: Let's force validation to happen in controller
 	req := CreateReservationRequest{}
 
 	err := c.BodyParser(&req)
 	if err != nil {
 		return err
 	}
-	fmt.Println(req)
 
 	err = validate.Struct(req)
 	if err != nil {
@@ -61,6 +58,33 @@ func (ct *controller) CreateReservation(c *fiber.Ctx) error {
 	return c.Status(http.StatusOK).JSON(rv)
 }
 
+func (ct *controller) GetReservations(c *fiber.Ctx) error {
+	showCancelled := c.QueryBool("show_cancelled", true)
+
+	rvs, err := ct.uc.GetReservations(c.Context(), showCancelled)
+	if err != nil {
+		return err
+	}
+
+	return c.Status(http.StatusOK).JSON(rvs)
+}
+
+func (ct *controller) CancelReservation(c *fiber.Ctx) error {
+	req := CancelReservationRequest{}
+
+	err := c.BodyParser(&req)
+	if err != nil {
+		return err
+	}
+
+	rv, err := ct.uc.CancelReservation(c.Context(), req.ReservationID)
+	if err != nil {
+		return err
+	}
+
+	return c.Status(http.StatusOK).JSON()
+}
+
 func (ct *controller) Start(app *fiber.App) {
 	// Middleware
 	app.Use(requestid.New())
@@ -71,18 +95,27 @@ func (ct *controller) Start(app *fiber.App) {
 	// Route
 	app.Get("/reservations/slots", ct.GetSlots)
 	app.Post("/reservations", ct.CreateReservation)
+	app.Get("/reservations", ct.GetReservations)
+	app.Put("/reservations", ct.CancelReservation)
 
 	// Listen
-	app.Listen(defaultPort)
+	err := app.Listen(defaultPort)
+	if err != nil {
+		panic(err)
+	}
 }
 
 func ControllerErrHandler(c *fiber.Ctx, err error) error {
 	code := http.StatusInternalServerError
 
 	switch err {
-	case errNotFound:
+	case errPatientNotFound,
+		errDoctorNotFound,
+		errReservationNotFound,
+		errSlotNotFound:
 		code = http.StatusNotFound
-	case errReservationAlreadyExists:
+	case errReservationExists,
+		errReservationCancelled:
 		code = http.StatusBadRequest
 	}
 	if _, ok := err.(validator.ValidationErrors); ok {
@@ -111,9 +144,12 @@ type errorResponse struct {
 	ErrorMessage string `json:"error_message"`
 }
 
-// FIXME: Add this to docs/api_contract.md
 type CreateReservationRequest struct {
 	PatientID int `json:"patient_id" validate:"required,gte=0"`
 	DoctorID  int `json:"doctor_id" validate:"required,gte=0"`
 	SlotID    int `json:"slot_id" validate:"required,gte=0"`
+}
+
+type CancelReservationRequest struct {
+	ReservationID int `json:"reservation_id" validate:"required,gte=0"`
 }

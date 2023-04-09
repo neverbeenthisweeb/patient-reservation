@@ -55,8 +55,13 @@ type repoDoctor interface {
 type repoReservation interface {
 	GetReservations(ctx context.Context, filter getReservationsFilter) ([]reservation, error)
 	CreateReservation(ctx context.Context, rv reservation) (reservation, error)
+	CancelReservation(ctx context.Context, ID int) (reservation, error)
+	GetReservation(ctx context.Context, ID int) (reservation, error)
 }
 
 type getReservationsFilter struct {
-	doctorID int
+	doctorID      int
+	start         string
+	end           string
+	showCancelled bool
 }

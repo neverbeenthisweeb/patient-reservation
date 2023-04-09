@@ -7,7 +7,15 @@ sequenceDiagram
     a-->>p: OK
     p->>a: Create reservation
     
-    alt Doctor is not available
+    alt Invalid patient
+        a-->>p: ERROR
+    end
+
+    alt Invalid doctor
+        a-->>p: ERROR
+    end
+
+    alt Invalid slot
         a-->>p: ERROR
     end
     
@@ -15,8 +23,8 @@ sequenceDiagram
         a-->>p: ERROR
     end
 
-    a->>a: Create reservation
     a->>q: Get queue number
     q->>q: Add queue number<br>by +1
+    a->>a: Create reservation
     q-->>a: OK
     a-->>p: OK
