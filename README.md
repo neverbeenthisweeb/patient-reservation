@@ -4,7 +4,8 @@
 
 ### Requirements
 
-- Docker `20.10.15`
+- Docker >= 20.10.15
+- (optional) Golang >= 1.18.7
 - (optional) `make` command (see [GNU Make](https://www.gnu.org/software/make/))
 
 ### Setup
@@ -37,6 +38,12 @@ docker run --rm -p 4040:4040 patientreservation:latest
 ```
 
 Please raise an issue if you find difficulties.
+
+### Test
+
+To have the unit test, run `go test -v -failfast ./app`
+
+or you can run `make unittest`
 
 ## Product Requirement Document
 
